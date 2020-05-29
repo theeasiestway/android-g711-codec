@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/vPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play"/>
+
+        <Button
+            android:id="@+id/vStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/vPcma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PCMA"/>
+
+            <RadioButton
+                android:id="@+id/vPcmu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PCMU"/>
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/vPcmuToA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="U to A"/>
+
+            <RadioButton
+                android:id="@+id/vPcmaToU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A to U"/>
+        </RadioGroup>
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/vBytes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bytes"/>
+
+        <RadioButton
+            android:id="@+id/vShorts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shorts"/>
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/vMono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mono"/>
+
+        <RadioButton
+            android:id="@+id/vStereo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stereo"/>
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/vConvert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Convert result"/>
+</LinearLayout>

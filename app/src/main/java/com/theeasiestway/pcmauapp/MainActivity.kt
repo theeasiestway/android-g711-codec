@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.RadioButton
-import android.widget.Toast
-import com.theeasiestway.opusapp.mic.ControllerAudio
+import android.widget.*
+import com.theeasiestway.pcmauapp.mic.ControllerAudio
 import com.theeasiestway.pcmau.G711
 
 class MainActivity : AppCompatActivity() {
@@ -64,17 +61,37 @@ class MainActivity : AppCompatActivity() {
         vShorts = findViewById(R.id.vShorts)
 
         vConvert = findViewById(R.id.vConvert)
+        vConvert.setOnCheckedChangeListener { v, isChecked -> needToConvert = isChecked }
 
         vPlay.setOnClickListener { requestPermissions() }
         vStop.setOnClickListener { stopRecording() }
+
+        vPcma.setOnCheckedChangeListener { v, isChecked -> if (isChecked && v.isPressed) updateRadioButtons(v.id) }
+        vPcmu.setOnCheckedChangeListener { v, isChecked -> if (isChecked && v.isPressed) updateRadioButtons(v.id) }
+        vPcmaToU.setOnCheckedChangeListener { v, isChecked -> if (isChecked && v.isPressed) updateRadioButtons(v.id) }
+        vPcmuToA.setOnCheckedChangeListener { v, isChecked -> if (isChecked && v.isPressed) updateRadioButtons(v.id) }
+    }
+
+    fun updateRadioButtons(checkedId: Int) {
+        vPcma.isChecked = vPcma.id == checkedId
+        vPcmu.isChecked = vPcmu.id == checkedId
+        vPcmaToU.isChecked = vPcmaToU.id == checkedId
+        vPcmuToA.isChecked = vPcmuToA.id == checkedId
     }
 
     private fun stopRecording() {
-        vStop.visibility = View.GONE
-        vPlay.visibility = View.VISIBLE
         stopLoop()
         ControllerAudio.stopRecord()
         ControllerAudio.stopTrack()
+
+        vStop.visibility = View.GONE
+        vPlay.visibility = View.VISIBLE
+
+        vPcma.isEnabled = true
+        vPcmu.isEnabled = true
+        vPcmaToU.isEnabled = true
+        vPcmuToA.isEnabled = true
+
         vBytes.isEnabled = true
         vShorts.isEnabled = true
         vMono.isEnabled = true
@@ -83,6 +100,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun startLoop() {
         stopLoop()
+
+        vPlay.visibility = View.GONE
+        vStop.visibility = View.VISIBLE
+
+        vPcma.isEnabled = false
+        vPcmu.isEnabled = false
+        vPcmaToU.isEnabled = false
+        vPcmuToA.isEnabled = false
 
         vBytes.isEnabled = false
         vShorts.isEnabled = false
@@ -102,7 +127,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getProcessType(): ProcessType {
-        return ProcessType.U
+        if (vPcma.isChecked) return ProcessType.A
+        if (vPcmu.isChecked) return ProcessType.U
+        if (vPcmuToA.isChecked) return ProcessType.UtoA
+        if (vPcmaToU.isChecked) return ProcessType.AtoU
+        throw IllegalStateException()
     }
 
     private fun stopLoop() {
@@ -111,9 +140,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleShorts() {
         val frame = ControllerAudio.getFrameShort() ?: return
-        val encoded = codec.encodeA(frame)
+        val encoded = when(PROCESS_TYPE) {
+            ProcessType.A -> codec.encodeA(frame)
+            ProcessType.U -> codec.encodeU(frame)
+            ProcessType.UtoA -> {
+                val temp = codec.encodeU(frame)
+                codec.convertUtoA(temp)
+            }
+            ProcessType.AtoU -> {
+                val temp = codec.encodeA(frame)
+                codec.convertAtoU(temp)
+            }
+        }
         Log.d(TAG, "encoded: ${frame.size} shorts of ${if (CHANNELS == 1) "MONO" else "STEREO"} audio into ${encoded.size} shorts")
-        val decoded = codec.decodeA(encoded)
+
+        val decoded = when(PROCESS_TYPE) {
+            ProcessType.A -> codec.decodeA(encoded)
+            ProcessType.U -> codec.decodeU(encoded)
+            ProcessType.UtoA -> {
+                val temp = codec.convertAtoU(encoded)
+                codec.decodeU(temp)
+            }
+            ProcessType.AtoU -> {
+                val temp = codec.convertUtoA(encoded)
+                codec.decodeA(temp)
+            }
+        }
         Log.d(TAG, "decoded: ${decoded.size} shorts")
 
         if (needToConvert) {
@@ -126,9 +178,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleBytes() {
         val frame = ControllerAudio.getFrame() ?: return
-        val encoded = codec.encodeA(frame)
+        val encoded = when(PROCESS_TYPE) {
+            ProcessType.A -> codec.encodeA(frame)
+            ProcessType.U -> codec.encodeU(frame)
+            ProcessType.UtoA -> {
+                val temp = codec.encodeU(frame)
+                codec.convertUtoA(temp)
+            }
+            ProcessType.AtoU -> {
+                val temp = codec.encodeA(frame)
+                codec.convertAtoU(temp)
+            }
+        }
         Log.d(TAG, "encoded: ${frame.size} bytes of ${if (CHANNELS == 1) "MONO" else "STEREO"} audio into ${encoded.size} bytes")
-        val decoded = codec.decodeA(encoded)
+
+        val decoded = when(PROCESS_TYPE) {
+            ProcessType.A -> codec.decodeA(encoded)
+            ProcessType.U -> codec.decodeU(encoded)
+            ProcessType.UtoA -> {
+                val temp = codec.convertAtoU(encoded)
+                codec.decodeU(temp)
+            }
+            ProcessType.AtoU -> {
+                val temp = codec.convertUtoA(encoded)
+                codec.decodeA(temp)
+            }
+        }
         Log.d(TAG, "decoded: ${decoded.size} bytes")
 
         if (needToConvert) {

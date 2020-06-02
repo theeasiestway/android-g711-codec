@@ -28,16 +28,3 @@ std::vector<short> SamplesConverter::convert(uint8_t **array, int length) {
     }
     return result;
 }
-
-short SamplesConverter::convert(uint8_t val) {
-    return (short)(val << 8 | val);
-}
-
-std::vector<uint8_t> SamplesConverter::convert(short val) {
-    std::vector<uint8_t> result;
-    uint8_t hi = (uint8_t) (val & 0xFF);
-    uint8_t low = (uint8_t) ((val >> 8) & 0xFF);
-    result.push_back(hi);
-    result.push_back(low);
-    return result;
-}

@@ -13,8 +13,6 @@ class SamplesConverter {
 public:
     static std::vector<uint8_t> convert(short **array, int length);
     static std::vector<short> convert(uint8_t **array, int length);
-    static std::vector<uint8_t> convert(short val);
-    static short convert(uint8_t val);
 };
 
 #endif //OPUS_SAMPLESCONVERTER_H

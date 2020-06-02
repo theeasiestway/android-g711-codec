@@ -26,47 +26,48 @@
             android:visibility="gone"/>
     </LinearLayout>
 
-    <RadioGroup
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RadioGroup
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/vPcma"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PCMA"/>
+        <RadioButton
+            android:id="@+id/vPcma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PCMA"
+            android:checked="true"/>
 
-            <RadioButton
-                android:id="@+id/vPcmu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PCMU"/>
-        </RadioGroup>
+        <RadioButton
+            android:id="@+id/vPcmu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PCMU"/>
+        </LinearLayout>
 
-        <RadioGroup
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/vPcmuToA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="U to A"/>
+        <RadioButton
+            android:id="@+id/vPcmuToA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="U to A"/>
 
-            <RadioButton
-                android:id="@+id/vPcmaToU"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A to U"/>
-        </RadioGroup>
-    </RadioGroup>
+        <RadioButton
+            android:id="@+id/vPcmaToU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A to U"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -77,7 +78,8 @@
             android:id="@+id/vBytes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bytes"/>
+            android:text="Bytes"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/vShorts"
@@ -95,7 +97,8 @@
             android:id="@+id/vMono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mono"/>
+            android:text="Mono"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/vStereo"

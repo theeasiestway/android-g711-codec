@@ -42,8 +42,8 @@ if (decoded != null) Log.d("G711", "decoded chunk size: ${decoded.size}")
 - **pcmau.aar** - it's a compiled library of **pcmau** module that mentioned above, it placed in the root directory of the project, you can easily add it to your project using gradle dependencies. First you have to place **pcmau.aar** in the libs folder of your project and then add to your build.gradle the following:
 ````groovy
 dependencies {
-    api fileTree(dir: 'libs', include: '*.jar')       // this line is necessary in order to allow gradle to take pcmau.aar from "libs" dir
-    api files('libs/pcmau.aar')                       // dependency for pcmau.aar library
-    ...                                               // other dependencies
+    implementation fileTree(dir: 'libs', include: '*.jar')       // this line is necessary in order to allow gradle to take pcmau.aar from "libs" dir
+    implementation files('libs/pcmau.aar')                       // dependency for pcmau.aar library
+    ...                                                          // other dependencies
 }
 ````
